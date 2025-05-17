@@ -1,0 +1,64 @@
+// server.js
+const express = require('express');
+const sqlite3 = require('sqlite3').verbose();
+const path = require('path');
+const bodyParser = require('body-parser');
+
+const app = express();
+const PORT = 3000;
+
+const db = new sqlite3.Database(path.join(__dirname, 'LifeBrite.db'));
+
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.static(path.join(__dirname, 'public')));
+app.set('view engine', 'ejs');
+app.set('views', path.join(__dirname, 'views'));
+
+// Page 1 - English
+app.get('/', (req, res) => {
+  db.all('SELECT * FROM items', (err, rows) => {
+    if (err) return res.send('Database error');
+    res.render('page1', { items: rows });
+  });
+});
+
+// Page 2 - Chinese
+app.get('/cn', (req, res) => {
+  db.all('SELECT * FROM items', (err, rows) => {
+    if (err) return res.send('Database error');
+    res.render('page2', { items: rows });
+  });
+});
+
+// Admin Page
+app.get('/admin', (req, res) => {
+  db.all('SELECT * FROM items', (err, rows) => {
+    if (err) return res.send('Database error');
+    res.render('admin', { items: rows });
+  });
+});
+
+// Admin: Add or Update item
+app.post('/admin/save', (req, res) => {
+  const { id, title, description, image_url, c_title, c_description } = req.body;
+  if (id) {
+    db.run(`UPDATE items SET title=?, description=?, image_url=?, c_title=?, c_description=? WHERE id=?`,
+      [title, description, image_url, c_title, c_description, id],
+      function (err) {
+        if (err) return res.send('Update failed');
+        res.redirect('/admin');
+      });
+  } else {
+    db.run(`INSERT INTO items (title, description, image_url, c_title, c_description) VALUES (?, ?, ?, ?, ?)`,
+      [title, description, image_url, c_title, c_description],
+      function (err) {
+        if (err) return res.send('Insert failed');
+        res.redirect('/admin');
+      });
+  }
+});
+
+app.listen(PORT, () => {
+  console.log(`Server is running on http://localhost:${PORT}`);
+});
+
