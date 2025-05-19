@@ -25,6 +25,20 @@
     border-radius: 12px;
     box-shadow: 0 0 20px rgba(255, 180, 180, 0.2);
   }
+
+  .big-paragraph {
+    white-space: pre-wrap;
+    font-size: 1.25rem;
+  }
+
+  .formatted-text {
+    font-size: 1.25rem;
+    white-space: pre-wrap;
+    font-family: inherit; /* Optional: keep normal font */
+    background: transparent;
+    border: none;
+  }
+
 </style>
 
 
@@ -47,7 +61,7 @@
           </h2>
           <div id="collapseCh<%= index %>" class="accordion-collapse collapse" data-bs-parent="#accordionCh">
             <div class="accordion-body">
-              <p><%= item.c_description %></p>
+              <pre class="big-paragraph"><%- item.c_description %></pre>
               <% if (item.image_url) { %>
                  <img src="<%= item.image_url %>" class="img-fluid rounded mb-3" style="height: auto;" alt="Image">
               <% } %>
@@ -59,7 +73,7 @@
   </div>
 
 <div style="position: fixed; top: 10px; right: 10px; z-index: 1000;">
-  <a href="/admin" style="font-size: 1rem; opacity: 0.9; text-decoration: none;">⚙️</a>
+  <a href="/admin" style="font-size: 1rem; opacity: 0.9; text-decoration: none;">⚙️  admin</a>
 </div>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>

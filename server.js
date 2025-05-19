@@ -1,6 +1,6 @@
 // server.js
 const express = require('express');
-const sqlite3 = require('sqlite3').verbose();
+//const sqlite3 = require('sqlite3').verbose();
 const path = require('path');
 const bodyParser = require('body-parser');
 const multer = require('multer');
@@ -9,7 +9,16 @@ const session = require('express-session');
 const app = express();
 const PORT = 3000;
 
-const db = new sqlite3.Database(path.join(__dirname, 'LifeBrite.db'));
+//const db = new sqlite3.Database(path.join(__dirname, 'LifeBrite.db'));
+const { Pool } = require('pg');
+const db = new Pool({
+  user: 'redlightuser',
+  host: 'localhost',
+  database: 'redlightdb',
+  password: 'yourpassword',
+  port: 5432,
+});
+
 
 // Configure multer for file uploads
 const storage = multer.diskStorage({
@@ -38,7 +47,7 @@ app.set('views', path.join(__dirname, 'views'));
 
 // Page 1 - English
 app.get('/', (req, res) => {
-  db.all('SELECT * FROM items', (err, rows) => {
+  db.query('SELECT * FROM items', (err, rows) => {
     if (err) return res.send('Database error');
     res.render('page1', { items: rows });
   });
@@ -46,7 +55,7 @@ app.get('/', (req, res) => {
 
 // Page 2 - Chinese
 app.get('/cn', (req, res) => {
-  db.all('SELECT * FROM items', (err, rows) => {
+  db.query('SELECT * FROM items', (err, rows) => {
     if (err) return res.send('Database error');
     res.render('page2', { items: rows });
   });
@@ -77,7 +86,7 @@ app.post('/login', (req, res) => {
 app.get('/admin', (req, res) => {
   if (!req.session.loggedIn) return res.redirect('/login');
 
-  db.all('SELECT * FROM items', (err, rows) => {
+  db.query('SELECT * FROM items', (err, rows) => {
     if (err) return res.send('Database error');
     res.render('admin', { items: rows, itemToEdit: null });
   });
@@ -88,7 +97,7 @@ app.post('/admin/edit', (req, res) => {
   const id = req.body.id;
   db.get('SELECT * FROM items WHERE id = ?', [id], (err, item) => {
     if (err) return res.send('Database error');
-    db.all('SELECT * FROM items', (err, rows) => {
+    db.query('SELECT * FROM items', (err, rows) => {
       if (err) return res.send('Database error');
       res.render('admin', { items: rows, itemToEdit: item });
     });

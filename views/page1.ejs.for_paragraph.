@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Red Light Moxibustion</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<style>
+  body {
+    background: url('/images/redlight.jpeg') no-repeat center center fixed;
+    background-size: cover;
+    min-height: 100vh;
+    font-family: Arial, sans-serif;
+    color: #333;
+  }
+
+  .overlay {
+    background-color: rgba(255, 240, 240, 0.9); /* light warm tint */
+    min-height: 100vh;
+    padding: 2rem;
+  }
+
+  .container {
+    background-color: #ffffffcc;
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 0 20px rgba(255, 180, 180, 0.2);
+  }
+</style>
+
+</head>
+<body class="p-4">
+  <div class="container">
+    <h1>🔥Red Light Moxibustion🔥</h1>
+    <p>This is an introduction to the benefits and process of Red Light Moxibustion.</p>
+    <a href="/cn" class="btn btn-outline-primary btn-sm">中文</a>
+
+    <hr>
+    <div class="accordion" id="accordionEng">
+      <% items.forEach((item, index) => { %>
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="heading<%= index %>">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse<%= index %>">
+              <%= item.title %>
+            </button>
+          </h2>
+          <div id="collapse<%= index %>" class="accordion-collapse collapse" data-bs-parent="#accordionEng">
+            <div class="accordion-body">
+              <p><%- item.description.replace(/\n/g, '<br>') %></p>
+              <% if (item.image_url) { %>
+                <img src="<%= item.image_url %>" class="img-fluid rounded mb-3" style="height: auto;" alt="Image">
+<!-- <img src="http://localhost:3000<%= item.image_url %>" alt="Image" /> -->
+
+
+              <% } %>
+            </div>
+          </div>
+        </div>
+      <% }) %>
+    </div>
+  </div>
+
+<div style="position: fixed; top: 20px; right: 20px; z-index: 1000;">
+  <a href="/admin" style="font-size: 1rem; opacity: 0.8; text-decoration: none;">⚙️</a>
+</div>
+
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
+
