@@ -5,9 +5,14 @@ const bodyParser = require('body-parser');
 const multer = require('multer');
 const session = require('express-session');
 const { Pool } = require('pg');
+const pool = new Pool({
+  connectionString: process.env.DATABASE_URL,
+  ssl: { rejectUnauthorized: false }  // Needed for Render’s PostgreSQL
+});
 
 const app = express();
-const PORT = 3000;
+// const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 
 // PostgreSQL connection
 const db = new Pool({
@@ -128,5 +133,6 @@ app.get('/logout', (req, res) => {
 
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
+  console.log(`Server running on port ${PORT}`);
 });
 
