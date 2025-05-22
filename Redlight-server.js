@@ -46,16 +46,10 @@ app.set('views', path.join(__dirname, 'views'));
 app.get('/', (req, res) => {
   db.query('SELECT * FROM items', (err, result) => {
     if (err) return res.send('Database error');
-    res.render('page1', { items: result.rows });
+    res.render('page', { items: result.rows });
   });
 });
 
-app.get('/cn', (req, res) => {
-  db.query('SELECT * FROM items', (err, result) => {
-    if (err) return res.send('Database error');
-    res.render('page2', { items: result.rows });
-  });
-});
 
 app.get('/login', (req, res) => {
   res.send(`

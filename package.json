@@ -8,5 +8,26 @@
     "pg": "^8.16.0",
     "sqlite3": "^5.1.7",
     "vim": "^0.1.0"
-  }
+  },
+  "name": "redlight",
+  "version": "1.0.0",
+  "description": "",
+  "main": "Redlight-server.js",
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node Redlight-server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/magggon/RedLight.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/magggon/RedLight/issues"
+  },
+  "homepage": "https://github.com/magggon/RedLight#readme"
 }
